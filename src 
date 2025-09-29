@@ -1,3 +1,271 @@
-android/
-ios/
-common/
+# === Create folders ===
+mkdir -p ui/src/{assets/{images,styles},components/{common,layout},pages,services,utils,tests}
+
+# === index.css (Tailwind entry) ===
+cat > ui/src/assets/styles/index.css <<'EOF'
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+body {
+  @apply bg-gray-950 text-gray-100 font-sans;
+}
+EOF
+
+# === main.tsx (entry) ===
+cat > ui/src/main.tsx <<'EOF'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./assets/styles/index.css";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+EOF
+
+# === App.tsx (router + layout) ===
+cat > ui/src/App.tsx <<'EOF'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/layout/Header";
+import Sidebar from "./components/layout/Sidebar";
+import Footer from "./components/layout/Footer";
+import Home from "./pages/Home";
+import Collaborate from "./pages/Collaborate";
+import Effects from "./pages/Effects";
+import Settings from "./pages/Settings";
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex flex-1">
+          <Sidebar />
+          <main className="flex-grow p-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collaborate" element={<Collaborate />} />
+              <Route path="/effects" element={<Effects />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </main>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+EOF
+
+# === Layout components ===
+cat > ui/src/components/layout/Header.tsx <<'EOF'
+export default function Header() {
+  return (
+    <header className="bg-gray-900 text-white p-4">
+      <h1 className="text-xl font-bold">Sovereign Studio</h1>
+    </header>
+  );
+}
+EOF
+
+cat > ui/src/components/layout/Sidebar.tsx <<'EOF'
+import { Link } from "react-router-dom";
+
+export default function Sidebar() {
+  return (
+    <aside className="w-60 bg-gray-800 text-gray-200 p-4">
+      <nav>
+        <ul className="space-y-2">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/collaborate">Collaborate</Link></li>
+          <li><Link to="/effects">Effects</Link></li>
+          <li><Link to="/settings">Settings</Link></li>
+        </ul>
+      </nav>
+    </aside>
+  );
+}
+EOF
+
+cat > ui/src/components/layout/Footer.tsx <<'EOF'
+export default function Footer() {
+  return (
+    <footer className="bg-gray-900 text-gray-400 text-center p-4">
+      © {new Date().getFullYear()} Sovereign Studio — All rights reserved
+    </footer>
+  );
+}
+EOF
+
+# === Common components ===
+cat > ui/src/components/common/Button.tsx <<'EOF'
+import { MouseEvent } from "react";
+
+interface ButtonProps {
+  label: string;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  variant?: "primary" | "secondary";
+  disabled?: boolean;
+}
+
+export default function Button({
+  label,
+  onClick,
+  variant = "primary",
+  disabled = false,
+}: ButtonProps) {
+  const baseStyles = "px-4 py-2 rounded font-medium transition-colors";
+  const variantStyles =
+    variant === "primary"
+      ? "bg-blue-600 hover:bg-blue-700 text-white"
+      : "bg-gray-600 hover:bg-gray-700 text-white";
+
+  return (
+    <button
+      className={`${baseStyles} ${variantStyles} ${
+        disabled ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {label}
+    </button>
+  );
+}
+EOF
+
+cat > ui/src/components/common/Slider.tsx <<'EOF'
+import { ChangeEvent } from "react";
+
+interface SliderProps {
+  value: number;
+  onChange: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  label?: string;
+}
+
+export default function Slider({
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  step = 1,
+  label,
+}: SliderProps) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(Number(e.target.value));
+  };
+
+  return (
+    <div className="flex flex-col space-y-2">
+      {label && <label className="text-sm font-medium">{label}</label>}
+      <input
+        type="range"
+        value={value}
+        onChange={handleChange}
+        min={min}
+        max={max}
+        step={step}
+        className="w-full accent-blue-600"
+      />
+      <span className="text-sm">{value}</span>
+    </div>
+  );
+}
+EOF
+
+cat > ui/src/components/common/Waveform.tsx <<'EOF'
+interface WaveformProps {
+  audioUrl?: string;
+}
+
+export default function Waveform({ audioUrl }: WaveformProps) {
+  return (
+    <div className="relative h-32 bg-gray-800 rounded overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/src/assets/images/waveform-bg.png')" }}
+      />
+      {audioUrl ? (
+        <p className="text-center pt-12 text-gray-300">Waveform for {audioUrl}</p>
+      ) : (
+        <p className="text-center pt-12 text-gray-300">No audio loaded</p>
+      )}
+    </div>
+  );
+}
+EOF
+
+# === Pages ===
+cat > ui/src/pages/Home.tsx <<'EOF'
+export default function Home() {
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Welcome to Sovereign Studio</h2>
+      <p className="mt-2 text-gray-300">
+        Your artist-owned digital audio workstation.
+      </p>
+    </div>
+  );
+}
+EOF
+
+cat > ui/src/pages/Collaborate.tsx <<'EOF'
+export default function Collaborate() {
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Collaborate Page</h2>
+      <p className="mt-2 text-gray-300">Work together with artists in real-time.</p>
+    </div>
+  );
+}
+EOF
+
+cat > ui/src/pages/Effects.tsx <<'EOF'
+export default function Effects() {
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Effects Page</h2>
+      <p className="mt-2 text-gray-300">Customize and apply audio effects.</p>
+    </div>
+  );
+}
+EOF
+
+cat > ui/src/pages/Settings.tsx <<'EOF'
+export default function Settings() {
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Settings Page</h2>
+      <p className="mt-2 text-gray-300">Adjust your preferences and account.</p>
+    </div>
+  );
+}
+EOF
+
+# === Services & Utils placeholders ===
+cat > ui/src/services/api.ts <<'EOF'
+// Example: API service
+export async function fetchData(endpoint: string) {
+  const res = await fetch(endpoint);
+  if (!res.ok) throw new Error("Network error");
+  return res.json();
+}
+EOF
+
+cat > ui/src/utils/helpers.ts <<'EOF'
+// Example: Utility function
+export function formatTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return \`\${minutes}:\${secs.toString().padStart(2, "0")}\`;
+}
+EOF
