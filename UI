@@ -1,15 +1,39 @@
-components/HelloButton.jsx
+mkdir -p ui/{public,src/{assets/{images,styles},components/{common,layout},pages,services,utils},tests}
+touch ui/README.md ui/package.json ui/tsconfig.json ui/.gitignore ui/tailwind.config.js ui/postcss.config.js ui/vite.config.ts ui/index.html
+touch ui/src/{index.tsx,App.tsx,main.tsx}
+touch ui/src/components/common/{Button.tsx,Header.tsx,Waveform.tsx,Slider.tsx} ui/src/components/layout/{Footer.tsx,Sidebar.tsx}
+touch ui/src/pages/{Home.tsx,Collaborate.tsx,Effects.tsx,Settings.tsx} ui/src/services/api.ts ui/src/utils/helpers.ts
+touch ui/tests/
+App.test.tsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Header from './components/common/Header'
+import Sidebar from './components/layout/Sidebar'
+import Footer from './components/layout/Footer'
+import Home from './pages/Home'
+import Collaborate from './pages/Collaborate'
+import Effects from './pages/Effects'
+import Settings from './pages/Settings'
 
-import React from "react";
-
-export default function HelloButton({ onClick }) {
+function App() {
   return (
-    <button onClick={onClick}>
-      Hello Studio
-    </button>
-  );
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex flex-1">
+          <Sidebar />
+          <main className="flex-grow p-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collaborate" element={<Collaborate />} />
+              <Route path="/effects" element={<Effects />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </main>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  )
 }
 
-styles/
-
-assets/
+export default App
