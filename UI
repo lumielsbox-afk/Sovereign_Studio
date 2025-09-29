@@ -13,6 +13,7 @@ This is the frontend UI for the Sovereign Studio project, a professional music p
 - `npm run dev`: Start dev server
 - `npm run build`: Build for production
 - `npm run test`: Run tests
+
 ui/package.json
 {
   "name": "sovereign-studio-ui",
