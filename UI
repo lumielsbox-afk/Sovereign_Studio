@@ -1,4 +1,5 @@
 mkdir -p ui/{public,src/{assets/{images,styles},components/{common,layout},pages,services,utils},tests}
+
 touch ui/README.md
 # Sovereign Studio UI
 
