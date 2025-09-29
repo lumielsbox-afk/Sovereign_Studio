@@ -128,10 +128,66 @@ export default defineConfig({
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+
 touch ui/src/{index.tsx,App.tsx,main.tsx}
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './assets/styles/index.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)App.tsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Header from './components/common/Header'
+import Sidebar from './components/layout/Sidebar'
+import Footer from './components/layout/Footer'
+import Home from './pages/Home'
+import Collaborate from './pages/Collaborate'
+import Effects from './pages/Effects'
+import Settings from './pages/Settings'
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex flex-1">
+          <Sidebar />
+          <main className="flex-grow p-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collaborate" element={<Collaborate />} />
+              <Route path="/effects" element={<Effects />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </main>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  )
+}
+
+export default App
+
+main.tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './assets/styles/index.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
 touch ui/src/components/common/{Button.tsx,Header.tsx,Waveform.tsx,Slider.tsx} ui/src/components/layout/{Footer.tsx,Sidebar.tsx}
 touch ui/src/pages/{Home.tsx,Collaborate.tsx,Effects.tsx,Settings.tsx} ui/src/services/api.ts ui/src/utils/helpers.ts
 touch ui/tests/
+
 App.test.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/common/Header'
