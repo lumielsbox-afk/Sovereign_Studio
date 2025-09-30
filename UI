@@ -116,6 +116,17 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from '@vitejs/plugin-pwa'
 
+ui/jest.config.js
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
+  setupFilesAfterEnv: ['@testing-library/jest-dom'],
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA()],
