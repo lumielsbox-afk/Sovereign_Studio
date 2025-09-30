@@ -50,7 +50,8 @@ ui/package.json
     "preview": "vite preview",
     "test": "jest"
   }
-}ui/tsconfig.json
+}
+ui/tsconfig.json
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -69,9 +70,8 @@ ui/package.json
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "references": [{ "path": "./
-
+  "include": ["src"]
+}
 tsconfig.node.json
 {
   "compilerOptions": {
@@ -292,9 +292,47 @@ export default function Slider({
   );
 }} 
 
-ui/src/components/layout/{Footer.tsx,Sidebar.tsx}
-
+ui/src/components/layout/Footer.tsx
+export default function Footer() {
+  return (
+    <footer className="text-center p-4 bg-gray-900 text-gray-400">
+      <p>© {new Date().getFullYear()} Sovereign Studio. All rights reserved.</p>
+    </footer>
+  )
+}
+ui/src/components/layout/Sidebar.tsx
+export default function Sidebar() {
+  return (
+    <aside className="w-48 bg-gray-800 text-white p-4">
+      <h2 className="font-bold mb-4">Tools</h2>
+      <ul className="space-y-2">
+        <li><a href="/" className="hover:underline">Home</a></li>
+        <li><a href="/collaborate" className="hover:underline">Collaborate</a></li>
+        <li><a href="/effects" className="hover:underline">Effects</a></li>
+        <li><a href="/settings" className="hover:underline">Settings</a></li>
+      </ul>
+    </aside>
+  )
+}
 touch ui/src/pages/{Home.tsx,Collaborate.tsx,Effects.tsx,Settings.tsx} ui/src/services/api.ts ui/src/utils/helpers.ts
+
+ui/src/pages/Home.tsx
+export default function Home() {
+  return <h1>Welcome to Sovereign Studio</h1>
+}
+ui/src/pages/Collaborate.tsx
+export default function Collaborate() {
+  return <h1>Collaborate Page</h1>
+}
+ui/src/pages/Effects.tsx
+export default function Effects() {
+  return <h1>Effects Page</h1>
+}
+ui/src/pages/Settings.tsx
+export default function Settings() {
+  return <h1>Settings Page</h1>
+}
+
 
 touch ui/tests/
 
