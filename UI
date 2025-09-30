@@ -204,6 +204,27 @@ export default function Button({ label, onClick, variant = 'primary', disabled =
     </button>
   );
 },Header.tsx,
+import React from "react";
+import "./Header.css";
+
+const Header: React.FC = () => {
+  return (
+    <header className="studio-header">
+      <div className="logo">Sovereign Studio</div>
+      <nav>
+        <ul className="nav-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/studio">Studio</a></li>
+          <li><a href="/settings">Settings</a></li>
+          <li><a href="/profile">Profile</a></li>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+
 Waveform.tsx
 interface WaveformProps {
   audioUrl?: string;
