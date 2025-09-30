@@ -249,7 +249,9 @@ export default function Waveform({ audioUrl }: WaveformProps) {
       )}
     </div>
   );
-},Slider.tsx
+},
+
+Slider.tsx
 import { ChangeEvent } from 'react';
 
 interface SliderProps {
@@ -288,46 +290,45 @@ export default function Slider({
       <span className="text-sm">{value}</span>
     </div>
   );
-}} ui/src/components/layout/{Footer.tsx,Sidebar.tsx}
+}} 
+
+ui/src/components/layout/{Footer.tsx,Sidebar.tsx}
+
 touch ui/src/pages/{Home.tsx,Collaborate.tsx,Effects.tsx,Settings.tsx} ui/src/services/api.ts ui/src/utils/helpers.ts
+
 touch ui/tests/
 
 App.test.tsx
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import App from '../src/App';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Header from './components/common/Header'
+import Sidebar from './components/layout/Sidebar'
+import Footer from './components/layout/Footer'
 
-describe('App Component', () => {
-  test('renders Header, Sidebar, and Footer', () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
+import Home from './pages/Home'
+import Collaborate from './pages/Collaborate'
+import Effects from './pages/Effects'
+import Settings from './pages/Settings'
 
-    expect(screen.getByText(/Sovereign Studio/i)).toBeInTheDocument();
-    expect(screen.getByText(/Tools/i)).toBeInTheDocument();
-    expect(screen.getByText(/All rights reserved/i)).toBeInTheDocument();
-  });
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex flex-1">
+          <Sidebar />
+          <main className="flex-grow p-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collaborate" element={<Collaborate />} />
+              <Route path="/effects" element={<Effects />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </main>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  )
+}
 
-  test('renders Home page by default', () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
-    expect(screen.getByText(/Welcome to Sovereign Studio/i)).toBeInTheDocument();
-  });
-
-  test('navigates to Collaborate page', () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
-    expect(screen.queryByText(/Collaborate Page/i)).not.toBeInTheDocument();
-    // Simulate navigation (requires actual Collaborate.tsx content)
-  });
-});
+export default App
